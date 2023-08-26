@@ -3,7 +3,7 @@ import '../../model/get_response.dart';
 
 @immutable
 class GetState {
-  final List<Post>? posts;
+  final List<GetResponseData>? posts;
   final bool isGetLoading;
   const GetState({
     required this.isGetLoading,
@@ -12,7 +12,7 @@ class GetState {
 
   GetState copyWith({
     bool? isGetLoading,
-    List<Post>? posts,
+    List<GetResponseData>? posts,
   }) {
     return GetState(
       isGetLoading: isGetLoading ?? this.isGetLoading,

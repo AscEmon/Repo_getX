@@ -1,17 +1,19 @@
+import 'package:api_test/constant/app_url.dart';
+import 'package:api_test/data_provider/pref_helper.dart';
+import 'package:api_test/modules/auth/login/views/login_screen.dart';
+import 'package:api_test/modules/auth/registration/views/registration_screen.dart';
 import 'package:api_test/modules/get_module/views/get_module_screen.dart';
+import 'package:api_test/utils/app_version.dart';
+import 'package:api_test/utils/enum.dart';
+import 'package:api_test/utils/navigation.dart';
+import 'package:api_test/utils/network_connection.dart';
+import 'package:api_test/utils/styles/k_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 //localization
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:api_test/constant/app_url.dart';
-import 'package:api_test/data_provider/pref_helper.dart';
-import 'package:api_test/utils/app_version.dart';
-import 'package:api_test/utils/enum.dart';
-import 'package:api_test/utils/navigation.dart';
-import 'package:api_test/utils/network_connection.dart';
-import 'package:api_test/utils/styles/k_colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -72,7 +74,7 @@ class MyApp extends StatelessWidget {
           home: child,
         );
       },
-      child: const GetModuleScreen(),
+      child: const LoginScreen(),
     );
   }
 }

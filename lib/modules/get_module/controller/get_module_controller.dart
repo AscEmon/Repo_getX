@@ -8,7 +8,7 @@ import '../repository/get_module_repository.dart';
 class GetModuleController extends GetxController {
   final IGetModuleRepository _getmoduleRepository = GetModuleRepository();
 
-  List<Post>? posts;
+  List<GetResponseData>? posts;
   bool isGetLoading = true;
   @override
   void onInit() {
@@ -19,7 +19,7 @@ class GetModuleController extends GetxController {
   void getPersonData() async {
     await _getmoduleRepository.fetGetData(
       onSuccess: (getResponse) {
-        posts = getResponse.posts ?? [];
+        posts = getResponse.data ?? [];
         isGetLoading = false;
 
         "persons length :: ${posts!.length}".log();

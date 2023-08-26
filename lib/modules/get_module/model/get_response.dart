@@ -1,85 +1,75 @@
-
-
 class GetResponse {
-    List<Post>? posts;
-    List<Comment>? comments;
-    Profile? profile;
+  int? page;
+  int? perPage;
+  int? totalrecord;
+  int? totalPages;
+  List<GetResponseData>? data;
 
-    GetResponse({
-        this.posts,
-        this.comments,
-        this.profile,
-    });
+  GetResponse({
+    this.page,
+    this.perPage,
+    this.totalrecord,
+    this.totalPages,
+    this.data,
+  });
 
-    factory GetResponse.fromJson(Map<String, dynamic> json) => GetResponse(
-        posts: json["posts"] == null ? [] : List<Post>.from(json["posts"]!.map((x) => Post.fromJson(x))),
-        comments: json["comments"] == null ? [] : List<Comment>.from(json["comments"]!.map((x) => Comment.fromJson(x))),
-        profile: json["profile"] == null ? null : Profile.fromJson(json["profile"]),
-    );
+  factory GetResponse.fromJson(Map<String, dynamic> json) => GetResponse(
+        page: json["page"],
+        perPage: json["per_page"],
+        totalrecord: json["totalrecord"],
+        totalPages: json["total_pages"],
+        data: json["data"] == null
+            ? []
+            : List<GetResponseData>.from(
+                json["data"]!.map((x) => GetResponseData.fromJson(x))),
+      );
 
-    Map<String, dynamic> toJson() => {
-        "posts": posts == null ? [] : List<dynamic>.from(posts!.map((x) => x.toJson())),
-        "comments": comments == null ? [] : List<dynamic>.from(comments!.map((x) => x.toJson())),
-        "profile": profile?.toJson(),
-    };
+  Map<String, dynamic> toJson() => {
+        "page": page,
+        "per_page": perPage,
+        "totalrecord": totalrecord,
+        "total_pages": totalPages,
+        "data": data == null
+            ? []
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
+      };
 }
 
-class Comment {
-    int? id;
-    String? body;
-    int? postId;
+class GetResponseData {
+  int? id;
+  String? name;
+  String? email;
+  String? profilepicture;
+  String? location;
+  DateTime? createdate;
 
-    Comment({
-        this.id,
-        this.body,
-        this.postId,
-    });
+  GetResponseData({
+    this.id,
+    this.name,
+    this.email,
+    this.profilepicture,
+    this.location,
+    this.createdate,
+  });
 
-    factory Comment.fromJson(Map<String, dynamic> json) => Comment(
+  factory GetResponseData.fromJson(Map<String, dynamic> json) =>
+      GetResponseData(
         id: json["id"],
-        body: json["body"],
-        postId: json["postId"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "body": body,
-        "postId": postId,
-    };
-}
-
-class Post {
-    int? id;
-    String? title;
-
-    Post({
-        this.id,
-        this.title,
-    });
-
-    factory Post.fromJson(Map<String, dynamic> json) => Post(
-        id: json["id"],
-        title: json["title"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "title": title,
-    };
-}
-
-class Profile {
-    String? name;
-
-    Profile({
-        this.name,
-    });
-
-    factory Profile.fromJson(Map<String, dynamic> json) => Profile(
         name: json["name"],
-    );
+        email: json["email"],
+        profilepicture: json["profilepicture"],
+        location: json["location"],
+        createdate: json["createdat"] == null
+            ? null
+            : DateTime.parse(json["createdat"]),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
+        "id": id,
         "name": name,
-    };
+        "email": email,
+        "profilepicture": profilepicture,
+        "location": location,
+        "createdat": createdate?.toIso8601String(),
+      };
 }

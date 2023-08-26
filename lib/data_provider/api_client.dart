@@ -12,6 +12,8 @@ import 'package:api_test/utils/view_util.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
+import '../utils/app_routes.dart';
+
 class ApiClient {
   final Dio _dio = Dio();
   Map<String, dynamic> _header = {};
@@ -158,8 +160,7 @@ class ApiClient {
       if (method == Method.POST) {
         response = await _dio.post(
           url,
-          queryParameters: params,
-          data: data,
+          data: params,
         );
       } else if (method == Method.DELETE) {
         response = await _dio.delete(url);
@@ -207,6 +208,7 @@ class ApiClient {
 
     return {
       HttpHeaders.contentTypeHeader: AppConstant.APPLICATION_JSON.key,
+      HttpHeaders.acceptHeader: AppConstant.APPLICATION_JSON.key,
       HttpHeaders.authorizationHeader:
           "${AppConstant.BEARER.key} ${PrefHelper.getString(AppConstant.TOKEN.key)}",
       AppConstant.APP_VERSION.key:
@@ -285,57 +287,59 @@ class ApiClient {
     required Function(Response response)? onSuccessFunction,
   }) async {
     if (response.statusCode == 200) {
-      if (response.data != null) {
-        return onSuccessFunction!(response);
+      final Map data = json.decode(response.toString());
+      // TODO:  please replace this code based on your reponse.
+      final verifycode = data['code'];
+      int code = int.tryParse(verifycode.toString()) ?? 0;
+      if (code == 0) {
+        if (response.data != null) {
+          return onSuccessFunction!(response);
+        } else {
+          "response data is ${response.data}".log();
+          throw Exception("response data is ${response.data}");
+        }
+      } else if (code == 401) {
+        await PrefHelper.setString(AppConstant.TOKEN.key, "");
+        Navigation.pushAndRemoveUntil(
+          Navigation.key.currentContext,
+          appRoutes: AppRoutes.login,
+        );
       } else {
-        "response data is ${response.data}".log();
-        throw Exception("response data is ${response.data}");
-      }
-      // final Map data = json.decode(response.toString());
-      // // TODO:  please replace this code based on your reponse.
-      // final verifycode = data['code'];
-      // int code = int.tryParse(verifycode.toString()) ?? 0;
-      // if (code == 200) {
-      //   if (response.data != null) {
-      //     return onSuccessFunction!(response);
-      //   } else {
-      //     "response data is ${response.data}".log();
-      //     throw Exception("response data is ${response.data}");
-      //   }
-      // } else if (code == 401) {
-      //   await PrefHelper.setString(AppConstant.TOKEN.key, "");
-      //   // Navigation.pushAndRemoveUntil(
-      //   //   Navigation.key.currentContext,
-      //   //   appRoutes: AppRoutes.login,
-      //   // );
-      // } else {
-      //   //Where error occured then pop the global dialog
-      //   response.statusCode?.log();
-      //   code.log();
-      //   isPopDialog?.log();
+        //Where error occured then pop the global dialog
+        response.statusCode?.log();
+        code.log();
+        isPopDialog?.log();
 
-      //   List<String>? erroMsg;
-      //   // TODO:  please replace this message based on your reponse.
-      //   erroMsg = List<String>.from(data["message"]?.map((x) => x));
-      //   erroMsg.toString().log();
-      //   ViewUtil.showAlertDialog(
-      //     barrierDismissible: false,
-      //     contentPadding: EdgeInsets.zero,
-      //     borderRadius: BorderRadius.all(
-      //       Radius.circular(20.r),
-      //     ),
-      //     content: ErrorDialog(
-      //       erroMsg: erroMsg,
-      //     ),
-      //   ).then((value) {
-      //     if (isPopDialog == true || isPopDialog == null) {
-      //       Navigator.pop(Navigation.key.currentContext!);
-      //     }
-      //   });
-      //   if (isPopDialog == false) {
-      //     throw Exception();
-      //   }
-      // }
+        String? erroMsg;
+        // TODO:  please replace this message based on your reponse.
+        erroMsg = data["message"] ?? "";
+        erroMsg.toString().log();
+        ViewUtil.SSLSnackbar(erroMsg!).then((value) {
+          if (isPopDialog == true || isPopDialog == null) {
+            Navigator.pop(Navigation.key.currentContext!);
+          }
+        });
+        if (isPopDialog == false) {
+          throw Exception();
+        }
+        //   ViewUtil.showAlertDialog(
+        //     barrierDismissible: false,
+        //     contentPadding: EdgeInsets.zero,
+        //     borderRadius: BorderRadius.all(
+        //       Radius.circular(20.r),
+        //     ),
+        //     content: ErrorDialog(
+        //       erroMsg: erroMsg ?? "",
+        //     ),
+        //   ).then((value) {
+        //     if (isPopDialog == true || isPopDialog == null) {
+        //       Navigator.pop(Navigation.key.currentContext!);
+        //     }
+        //   });
+        //   if (isPopDialog == false) {
+        //     throw Exception();
+        //   }
+      }
     }
   }
 }

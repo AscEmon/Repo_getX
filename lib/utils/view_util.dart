@@ -6,11 +6,11 @@ import 'package:api_test/utils/navigation.dart';
 import 'package:api_test/utils/styles/styles.dart';
 
 class ViewUtil {
-  static SSLSnackbar(
+  static Future SSLSnackbar(
     String msg, {
     String? btnName,
     void Function()? onPressed,
-  }) {
+  }) async {
     /**
      * Using ScaffoldMessenger we can easily access
      * this snackbar from anywhere
@@ -107,7 +107,6 @@ class ViewUtil {
           ),
           title: title,
           content: content,
-         
         );
       },
     );
@@ -146,5 +145,3 @@ class ViewUtil {
     );
   }
 }
-
-

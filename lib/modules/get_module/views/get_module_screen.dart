@@ -1,10 +1,10 @@
 import 'package:api_test/global/widget/global_appbar.dart';
-import 'package:api_test/global/widget/global_text.dart';
 import 'package:api_test/utils/extension.dart';
-import 'package:api_test/utils/styles/k_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../global/widget/global_text.dart';
+import '../../../utils/styles/styles.dart';
 import '../controller/get_module_controller.dart';
 
 class GetModuleScreen extends StatelessWidget {
@@ -34,7 +34,7 @@ class GetModuleScreen extends StatelessWidget {
                       child: ListTile(
                         tileColor: KColor.grey.color.withOpacity(0.2),
                         title: GlobalText(
-                          str: controller.posts![index].title ?? "",
+                          str: controller.posts![index].name ?? "",
                           fontWeight: FontWeight.bold,
                         ),
                       ),

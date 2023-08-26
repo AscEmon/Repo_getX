@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:api_test/utils/styles/k_text_style.dart';
 import 'package:api_test/utils/styles/styles.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class GlobalTextFormField extends StatelessWidget {
@@ -72,7 +71,7 @@ class GlobalTextFormField extends StatelessWidget {
           left: 14.w,
         ),
         prefixIcon: prefixIcon,
-
+        floatingLabelBehavior: FloatingLabelBehavior.always,
         hintText: hintText,
         label: mandatoryLabel == true
             ? Row(
@@ -130,6 +129,3 @@ class GlobalTextFormField extends StatelessWidget {
     );
   }
 }
-
-
- 

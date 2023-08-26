@@ -9,7 +9,7 @@ class ErrorDialog extends StatelessWidget {
     required this.erroMsg,
   }) : super(key: key);
 
-  final List<String> erroMsg;
+  final String erroMsg;
 
   @override
   Widget build(BuildContext context) {

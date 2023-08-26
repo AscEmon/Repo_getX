@@ -4,6 +4,8 @@ enum AppUrl {
   base,
   baseImage,
   getUrl,
+  registration,
+  login,
 }
 
 extension AppUrlExtention on AppUrl {
@@ -19,7 +21,7 @@ extension AppUrlExtention on AppUrl {
         break;
 
       case UrlLink.isDev:
-        _baseUrl = "https://my-json-server.typicode.com/";
+        _baseUrl = "http://restapi.adequateshop.com/api/";
         _baseImageUrl = "";
 
         break;
@@ -36,8 +38,12 @@ extension AppUrlExtention on AppUrl {
         return _baseUrl;
       case AppUrl.baseImage:
         return _baseImageUrl;
+      case AppUrl.registration:
+        return "AuthAccount/Registration";
+      case AppUrl.login:
+        return "AuthAccount/Login";
       case AppUrl.getUrl:
-        return "typicode/demo/db";
+        return "Users";
 
       default:
     }
